@@ -14,11 +14,22 @@ export default function JSONBuilder() {
   const fieldValues = watch();
   const previewJSON = buildJSON(fieldValues.fields || []);
 
-  return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">Day 4: Nested Schema Builder</h1>
-      <FieldEditor control={control} watch={watch} name="fields" setValue={setValue} />
+ return (
+  <div className="p-6 max-w-6xl mx-auto">
+    <h1 className="text-2xl font-bold mb-6">JSON Schema Builder</h1>
+    <div className="grid grid-cols-2 gap-6">     
+      <div>
+        <FieldEditor
+          control={control}
+          watch={watch}
+          name="fields"
+          setValue={setValue}
+        />
+      </div>
+
       <JSONPreview json={previewJSON} />
     </div>
-  );
+  </div>
+);
+
 }
