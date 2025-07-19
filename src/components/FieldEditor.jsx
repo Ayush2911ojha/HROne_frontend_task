@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { useFieldArray, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 
 export const defaultField = {
@@ -16,18 +22,23 @@ export default function FieldEditor({ control, name, watch, setValue }) {
     name,
   });
 
-  const fieldValues = watch(name); 
+  const fieldValues = watch(name);
 
-
+ 
   useEffect(() => {
     fieldValues?.forEach((field, index) => {
       const fieldPath = `${name}[${index}]`;
-
+      
       if (field?.type === "nested" && (!field.children || field.children.length === 0)) {
         setValue(`${fieldPath}.children`, [defaultField]);
       }
     });
   }, [fieldValues, name, setValue]);
+
+  const isLastFieldInvalid = () => {
+    const last = fieldValues?.[fieldValues.length - 1];
+    return !last?.key || last.key.trim() === "";
+  };
 
   return (
     <div className="space-y-4">
@@ -36,8 +47,12 @@ export default function FieldEditor({ control, name, watch, setValue }) {
         const fieldType = watch(`${fieldPath}.type`);
 
         return (
-          <div key={field.id} className="border border-gray-300 p-4 rounded-md bg-gray-50">
+          <div
+            key={field.id}
+            className="border border-gray-300 p-4 rounded-md bg-gray-50"
+          >
             <div className="flex items-center gap-4">
+            
               <Controller
                 control={control}
                 name={`${fieldPath}.key`}
@@ -46,13 +61,23 @@ export default function FieldEditor({ control, name, watch, setValue }) {
                 )}
               />
 
+             
               <Controller
                 control={control}
                 name={`${fieldPath}.type`}
                 render={({ field: selectField }) => (
                   <Select
                     value={selectField.value}
-                    onValueChange={selectField.onChange}
+                    onValueChange={(val) => {
+                      selectField.onChange(val);
+                      if (val === "nested") {
+                        setValue(`${fieldPath}.children`, [defaultField], {
+                          shouldDirty: true,
+                        });
+                      } else {
+                        setValue(`${fieldPath}.children`, []);
+                      }
+                    }}
                   >
                     <SelectTrigger className="w-32">
                       <SelectValue placeholder="Select type" />
@@ -66,15 +91,23 @@ export default function FieldEditor({ control, name, watch, setValue }) {
                 )}
               />
 
+             
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={() => remove(index)}
+                onClick={() => {
+                  remove(index);
+                  if (fields.length === 1) {
+                    append(defaultField);
+                  }
+                }}
               >
                 Delete
               </Button>
+
             </div>
 
+         
             {fieldType === "nested" && (
               <div className="ml-6 border-l-2 pl-4 mt-4">
                 <FieldEditor
@@ -89,9 +122,22 @@ export default function FieldEditor({ control, name, watch, setValue }) {
         );
       })}
 
-      <Button type="button" onClick={() => append(defaultField)}>
+   
+      <Button
+        type="button"
+        onClick={() => append(defaultField)}
+        disabled={isLastFieldInvalid()}
+        className="bg-blue-600 text-white px-4 py-1 rounded"
+      >
         + Add Field
       </Button>
+
+      
+      {isLastFieldInvalid() && (
+        <p className="text-sm text-red-500 mt-2">
+          You must enter a field name before adding a new field.
+        </p>
+      )}
     </div>
   );
 }
