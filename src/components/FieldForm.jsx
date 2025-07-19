@@ -1,5 +1,8 @@
 import React from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
+import JSONPreview from "./JSONPreview";
+import buildJSON from "../utils/BuildJSON"
+
 
 export const defaultField = {
   key: "",
@@ -7,7 +10,7 @@ export const defaultField = {
 };
 
 export default function FieldForm() {
-  const { control, register, handleSubmit } = useForm({
+  const { control, register, watch } = useForm({
     defaultValues: {
       fields: [defaultField],
     },
@@ -18,14 +21,10 @@ export default function FieldForm() {
     name: 'fields',
   });
 
-  const onSubmit = (data) => {
-    console.log("Submitted data:", data);
-  };
+  const fieldValues = watch("fields");
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-    
-
+    <div className="space-y-4">
       {fields.map((field, index) => (
         <div key={field.id} className="flex items-center gap-3">
           <input
@@ -60,12 +59,7 @@ export default function FieldForm() {
         + Add Field
       </button>
 
-      <button
-        type="submit"
-        className="bg-green-600 text-white px-6 py-1 rounded block mt-4"
-      >
-        Submit
-      </button>
-    </form>
+      <JSONPreview json={buildJSON(fieldValues || [])} />
+    </div>
   );
 }
