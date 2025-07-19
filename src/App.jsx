@@ -1,7 +1,11 @@
 
+import JSONBuilder from "./pages/JSONBuilder"
+
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+     <JSONBuilder />
+    </div>
   )
 }
 
