@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,20 +16,20 @@ export const defaultField = {
   children: [],
 };
 
+const keyPattern = /^[a-zA-Z_][a-zA-Z0-9_-]*$/;
+
 export default function FieldEditor({ control, name, watch, setValue }) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name,
-  });
-
+  const { fields, append, remove } = useFieldArray({ control, name });
   const fieldValues = watch(name);
+  const [error, setError] = useState("");
 
- 
   useEffect(() => {
     fieldValues?.forEach((field, index) => {
       const fieldPath = `${name}[${index}]`;
-      
-      if (field?.type === "nested" && (!field.children || field.children.length === 0)) {
+      if (
+        field?.type === "nested" &&
+        (!field.children || field.children.length === 0)
+      ) {
         setValue(`${fieldPath}.children`, [defaultField]);
       }
     });
@@ -37,7 +37,22 @@ export default function FieldEditor({ control, name, watch, setValue }) {
 
   const isLastFieldInvalid = () => {
     const last = fieldValues?.[fieldValues.length - 1];
-    return !last?.key || last.key.trim() === "";
+    return !last?.key || last.key.trim() === "" || !keyPattern.test(last.key);
+  };
+
+  const handleAddField = () => {
+    setError("");
+    append(defaultField);
+
+    
+    setTimeout(() => {
+      const keys = fieldValues?.map((f) => f.key.trim()).filter(Boolean);
+      const hasDuplicate = new Set(keys).size !== keys.length;
+      if (hasDuplicate) {
+        remove(fieldValues.length - 1);
+        alert("Duplicate keys are not allowed. Please use a unique name.");
+      }
+    }, 0);
   };
 
   return (
@@ -45,6 +60,8 @@ export default function FieldEditor({ control, name, watch, setValue }) {
       {fields.map((field, index) => {
         const fieldPath = `${name}[${index}]`;
         const fieldType = watch(`${fieldPath}.type`);
+        const keyValue = watch(`${fieldPath}.key`);
+        const keyInvalid = keyValue && !keyPattern.test(keyValue);
 
         return (
           <div
@@ -52,7 +69,7 @@ export default function FieldEditor({ control, name, watch, setValue }) {
             className="border border-gray-300 p-4 rounded-md bg-gray-50"
           >
             <div className="flex items-center gap-4">
-            
+             
               <Controller
                 control={control}
                 name={`${fieldPath}.key`}
@@ -91,7 +108,7 @@ export default function FieldEditor({ control, name, watch, setValue }) {
                 )}
               />
 
-             
+              
               <Button
                 variant="destructive"
                 size="sm"
@@ -104,10 +121,16 @@ export default function FieldEditor({ control, name, watch, setValue }) {
               >
                 Delete
               </Button>
-
             </div>
 
-         
+            {keyInvalid && (
+              <p className="text-sm text-red-500 mt-1">
+                Key must start with a letter or underscore and contain only
+                letters, numbers, underscores, or hyphens.
+              </p>
+            )}
+
+          
             {fieldType === "nested" && (
               <div className="ml-6 border-l-2 pl-4 mt-4">
                 <FieldEditor
@@ -122,22 +145,23 @@ export default function FieldEditor({ control, name, watch, setValue }) {
         );
       })}
 
-   
+      
       <Button
         type="button"
-        onClick={() => append(defaultField)}
+        onClick={handleAddField}
         disabled={isLastFieldInvalid()}
         className="bg-blue-600 text-white px-4 py-1 rounded"
       >
         + Add Field
       </Button>
 
-      
+     
       {isLastFieldInvalid() && (
         <p className="text-sm text-red-500 mt-2">
-          You must enter a field name before adding a new field.
+          You must enter a valid field name before adding a new field.
         </p>
       )}
+      {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
     </div>
   );
 }
