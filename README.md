@@ -1,12 +1,62 @@
-# React + Vite
+# **JSON Schema Builder (Frontend Task - HROne)**  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A dynamic **JSON Schema Builder** built with **ReactJS**, **TailwindCSS**, and **ShadCN UI**, created as part of the **HROne Frontend Hiring Task**.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 **Features**
+- ✅ Add, edit, and delete fields dynamically  
+- ✅ Supported field types: **String**, **Number**, and **Nested**  
+- ✅ Fully supports **recursive nested fields**  
+- ✅ Real-time **JSON preview** based on user input  
+- ✅ Built using **React**, **TailwindCSS**, and **ShadCN UI** for a modern and responsive UI  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 **Tech Stack**
+- **React** (with Vite)
+- **Tailwind CSS**
+- **ShadCN UI** (headless UI components)
+- **React Hook Form** (for dynamic form management)
+
+---
+
+## 📸 **Live Demo**
+🔗 [View Live App](https://hr-one-frontend-task-two.vercel.app/)  
+
+
+## 🚀 **Getting Started**
+
+### 1️⃣ Clone the repo
+
+git clone https://github.com/Ayush2911ojha/HROne_frontend_task.git
+cd HROne_frontend_task
+
+### 2. Install dependencies
+npm install
+npm run dev
+
+
+The app will run on [http://localhost:3000](http://localhost:3000)
+
+## 📁 Project Structure
+
+src/
+├── components/        # Reusable UI Components
+│   ├── FieldEditor.jsx
+│   ├── JSONPreview.jsx
+│
+├── pages/
+│   └── JSONBuilder.jsx  # Main Page
+│
+├── utils/
+│   └── BuildJSON.js    # Utility for JSON generation
+│
+└── App.jsx
+
+## ✅ Task Compliance
+
+- [x] Dynamic field management (add/edit/delete)
+- [x] Nested field support
+- [x] Real-time JSON preview
+- [x] Hosted + GitHub repo ready
