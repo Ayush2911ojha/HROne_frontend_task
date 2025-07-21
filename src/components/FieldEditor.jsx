@@ -44,7 +44,7 @@ export default function FieldEditor({ control, name, watch, setValue }) {
     setError("");
     append(defaultField);
 
-    
+
     setTimeout(() => {
       const keys = fieldValues?.map((f) => f.key.trim()).filter(Boolean);
       const hasDuplicate = new Set(keys).size !== keys.length;
@@ -132,20 +132,22 @@ export default function FieldEditor({ control, name, watch, setValue }) {
 
           
             {fieldType === "nested" && (
-              <div className="ml-6 border-l-2 pl-4 mt-4">
-                <FieldEditor
-                  control={control}
-                  name={`${fieldPath}.children`}
-                  watch={watch}
-                  setValue={setValue}
-                />
+              <div className="mt-4 overflow-x-auto whitespace-nowrap">
+                <div className="flex gap-4">
+                  <FieldEditor
+                    control={control}
+                    name={`${fieldPath}.children`}
+                    watch={watch}
+                    setValue={setValue}
+                  />
+                </div>
               </div>
             )}
           </div>
         );
       })}
 
-      
+
       <Button
         type="button"
         onClick={handleAddField}
@@ -155,7 +157,7 @@ export default function FieldEditor({ control, name, watch, setValue }) {
         + Add Field
       </Button>
 
-     
+
       {isLastFieldInvalid() && (
         <p className="text-sm text-red-500 mt-2">
           You must enter a valid field name before adding a new field.

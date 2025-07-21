@@ -19,18 +19,20 @@ export default function JSONBuilder() {
       <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center md:text-left">
         JSON Schema Builder
       </h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-        <div className="w-full">
-          <FieldEditor
-            control={control}
-            watch={watch}
-            name="fields"
-            setValue={setValue}
-          />
+        <div className="overflow-x-auto">
+          <div className="min-w-[500px]">
+            <FieldEditor
+              control={control}
+              watch={watch}
+              name="fields"
+              setValue={setValue}
+            />
+          </div>
         </div>
 
-        <div className="w-full overflow-x-auto">
+        <div className="overflow-x-auto">
           <JSONPreview json={previewJSON} />
         </div>
       </div>
