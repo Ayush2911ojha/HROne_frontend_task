@@ -1,6 +1,6 @@
-# **JSON Schema Builder (Frontend Task - HROne)**  
+# **JSON Schema Builder**  
 
-A dynamic **JSON Schema Builder** built with **ReactJS**, **TailwindCSS**, and **ShadCN UI**, created as part of the **HROne Frontend Hiring Task**.  
+This is a React-based web application that allows users to dynamically build and visualize JSON Schemas. Built with [ShadCN UI](https://ui.shadcn.com/) and [React Hook Form](https://react-hook-form.com/), this tool provides a clean, responsive interface for constructing complex JSON structures interactively. 
 
 ---
 
@@ -22,7 +22,7 @@ A dynamic **JSON Schema Builder** built with **ReactJS**, **TailwindCSS**, and *
 ---
 
 ## 📸 **Live Demo**
-🔗 [View Live App](https://hr-one-frontend-task-two.vercel.app/)  
+🔗 [View Live App](https://json-schema-generator-six.vercel.app/)  
 
 
 ## 🚀 **Getting Started**
@@ -30,6 +30,7 @@ A dynamic **JSON Schema Builder** built with **ReactJS**, **TailwindCSS**, and *
 ### 1️⃣ Clone the repo
 
 git clone https://github.com/Ayush2911ojha/HROne_frontend_task.git
+
 cd HROne_frontend_task
 
 ### 2. Install dependencies
